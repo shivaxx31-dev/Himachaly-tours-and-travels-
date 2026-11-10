@@ -1,0 +1,6 @@
+{
+  "name": "Himachaly Tours and Travels",
+  "description": "Premium bus bookings and holiday tour packages across Shimla, Manali, Dharamshala and Himachal Pradesh.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

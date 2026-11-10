@@ -1,0 +1,203 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile with role and contact information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Unique Firebase user ID" },
+        "email": { "type": "string", "format": "email", "description": "User email address" },
+        "displayName": { "type": "string", "description": "User display name" },
+        "role": { "type": "string", "enum": ["admin", "customer"], "description": "User role" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp when created" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Enquiry": {
+      "title": "Enquiry",
+      "description": "Trip enquiry submitted by a customer",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Enquiry unique ID" },
+        "name": { "type": "string", "description": "Customer name" },
+        "phone": { "type": "string", "description": "Customer phone or mobile" },
+        "email": { "type": "string", "description": "Customer email" },
+        "destination": { "type": "string", "description": "Selected travel destination" },
+        "travelDate": { "type": "string", "description": "Travel start date" },
+        "passengers": { "type": "number", "description": "Number of travellers" },
+        "serviceRequired": { "type": "string", "description": "Service type (Bus Booking, Tour Package, Group Tour, Custom)" },
+        "message": { "type": "string", "description": "Additional notes or requirements" },
+        "status": { "type": "string", "enum": ["pending", "contacted", "confirmed", "cancelled"], "description": "Current status" },
+        "createdAt": { "type": "string", "description": "Timestamp when submitted" }
+      },
+      "required": ["name", "phone", "destination", "status"]
+    },
+    "Booking": {
+      "title": "Booking",
+      "description": "Bus ticket or package booking request",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Booking reference code" },
+        "bookingType": { "type": "string", "enum": ["bus", "package"], "description": "Type of booking" },
+        "busId": { "type": "string", "description": "ID of selected bus route" },
+        "routeTitle": { "type": "string", "description": "e.g. Delhi to Shimla" },
+        "packageId": { "type": "string", "description": "ID of tour package if package booking" },
+        "packageTitle": { "type": "string", "description": "Name of tour package" },
+        "travelDate": { "type": "string", "description": "Journey date" },
+        "selectedSeats": { "type": "string", "description": "Comma separated list of selected seat numbers" },
+        "seatCount": { "type": "number", "description": "Number of seats booked" },
+        "passengerName": { "type": "string", "description": "Primary passenger name" },
+        "passengerEmail": { "type": "string", "description": "Passenger email address" },
+        "passengerPhone": { "type": "string", "description": "Passenger phone number" },
+        "boardingPoint": { "type": "string", "description": "Boarding point location" },
+        "droppingPoint": { "type": "string", "description": "Drop point location" },
+        "totalFare": { "type": "number", "description": "Total amount in INR" },
+        "paymentStatus": { "type": "string", "enum": ["pending_operator", "paid", "cash_on_board"], "description": "Payment status" },
+        "bookingStatus": { "type": "string", "enum": ["requested", "confirmed", "cancelled"], "description": "Booking processing status" },
+        "createdAt": { "type": "string", "description": "Timestamp when created" }
+      },
+      "required": ["bookingType", "passengerName", "passengerPhone", "travelDate", "totalFare", "bookingStatus"]
+    },
+    "TourPackage": {
+      "title": "TourPackage",
+      "description": "Holiday package offering in Himachal Pradesh",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique package ID" },
+        "title": { "type": "string", "description": "Title of package" },
+        "subtitle": { "type": "string", "description": "Short summary" },
+        "destination": { "type": "string", "description": "Primary destination" },
+        "duration": { "type": "string", "description": "e.g. 3 Days / 2 Nights" },
+        "startingPrice": { "type": "number", "description": "Starting price per person in INR" },
+        "featured": { "type": "boolean", "description": "Whether package is featured" },
+        "imageUrl": { "type": "string", "description": "Scenic photography URL" },
+        "highlights": { "type": "string", "description": "JSON array of key highlights" },
+        "itinerary": { "type": "string", "description": "JSON array of day-by-day plan" },
+        "inclusions": { "type": "string", "description": "JSON array of inclusions" },
+        "exclusions": { "type": "string", "description": "JSON array of exclusions" }
+      },
+      "required": ["id", "title", "destination", "duration", "startingPrice"]
+    },
+    "Destination": {
+      "title": "Destination",
+      "description": "Himachal hill station destination guide",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Slug / ID" },
+        "name": { "type": "string", "description": "Destination name" },
+        "tagline": { "type": "string", "description": "e.g. Queen of Hills" },
+        "overview": { "type": "string", "description": "Editorial description" },
+        "imageUrl": { "type": "string", "description": "Hero photograph" },
+        "bestTimeToVisit": { "type": "string", "description": "Ideal travel months" },
+        "altitude": { "type": "string", "description": "Altitude in feet / meters" },
+        "thingsToDo": { "type": "string", "description": "JSON array of activities" },
+        "nearbyAttractions": { "type": "string", "description": "JSON array of spots" }
+      },
+      "required": ["id", "name", "tagline", "overview"]
+    },
+    "BusRoute": {
+      "title": "BusRoute",
+      "description": "Intercity bus route definition",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Route ID" },
+        "sourceCity": { "type": "string", "description": "Origin city" },
+        "destinationCity": { "type": "string", "description": "Destination city" },
+        "duration": { "type": "string", "description": "e.g. 8-9 hrs" },
+        "distance": { "type": "string", "description": "Approx km" },
+        "startingFare": { "type": "number", "description": "Starting fare in INR" },
+        "dailyFrequency": { "type": "string", "description": "e.g. Daily / 6 Buses Daily" },
+        "category": { "type": "string", "description": "e.g. Volvo Multi-Axle, Deluxe AC, BharatBenz" },
+        "amenities": { "type": "string", "description": "JSON array of amenities" },
+        "imageUrl": { "type": "string", "description": "Route photo" }
+      },
+      "required": ["id", "sourceCity", "destinationCity", "duration", "startingFare"]
+    },
+    "BusSchedule": {
+      "title": "BusSchedule",
+      "description": "Individual bus timing and seat availability schedule",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Bus run ID" },
+        "routeId": { "type": "string", "description": "Associated route ID" },
+        "busName": { "type": "string", "description": "e.g. Himachaly Royal Scania Multi-Axle" },
+        "busType": { "type": "string", "enum": ["Volvo AC 2+2", "BharatBenz AC Seater", "Luxury Sleeper 2+1", "Deluxe Non-AC"], "description": "Bus class" },
+        "departureTime": { "type": "string", "description": "e.g. 21:00" },
+        "arrivalTime": { "type": "string", "description": "e.g. 05:30" },
+        "departurePlace": { "type": "string", "description": "e.g. Kashmiri Gate ISBT, Delhi" },
+        "arrivalPlace": { "type": "string", "description": "e.g. Shimla Old Bus Stand / Tutikandi" },
+        "fare": { "type": "number", "description": "Fare in INR" },
+        "totalSeats": { "type": "number", "description": "Capacity" },
+        "availableSeats": { "type": "number", "description": "Seats left" },
+        "amenities": { "type": "string", "description": "JSON array of amenities" }
+      },
+      "required": ["id", "routeId", "busName", "fare", "departureTime", "arrivalTime"]
+    },
+    "Testimonial": {
+      "title": "Testimonial",
+      "description": "Customer review and feedback",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Testimonial ID" },
+        "author": { "type": "string", "description": "Customer name" },
+        "city": { "type": "string", "description": "Customer hometown" },
+        "route": { "type": "string", "description": "Trip taken" },
+        "rating": { "type": "number", "description": "1 to 5 stars" },
+        "quote": { "type": "string", "description": "Review text" },
+        "date": { "type": "string", "description": "Date of trip" }
+      },
+      "required": ["id", "author", "rating", "quote"]
+    },
+    "SiteSettings": {
+      "title": "SiteSettings",
+      "description": "Global operational contact and company configuration",
+      "type": "object",
+      "properties": {
+        "phone": { "type": "string", "description": "Official support phone" },
+        "whatsapp": { "type": "string", "description": "WhatsApp number" },
+        "email": { "type": "string", "description": "Support email" },
+        "address": { "type": "string", "description": "Shimla office address" },
+        "bookingNotice": { "type": "string", "description": "Banner announcement" }
+      },
+      "required": ["phone", "whatsapp", "email"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Stores user roles and profiles"
+    },
+    "/enquiries/{enquiryId}": {
+      "schema": "Enquiry",
+      "description": "Stores customer trip enquiries and booking requests"
+    },
+    "/bookings/{bookingId}": {
+      "schema": "Booking",
+      "description": "Stores bus and tour booking submissions"
+    },
+    "/packages/{packageId}": {
+      "schema": "TourPackage",
+      "description": "Curated holiday tour packages"
+    },
+    "/destinations/{destinationId}": {
+      "schema": "Destination",
+      "description": "Himachal destination guides and details"
+    },
+    "/busRoutes/{routeId}": {
+      "schema": "BusRoute",
+      "description": "Bus routes between major cities and Himachal"
+    },
+    "/buses/{busId}": {
+      "schema": "BusSchedule",
+      "description": "Daily scheduled bus departures and seat inventories"
+    },
+    "/testimonials/{testimonialId}": {
+      "schema": "Testimonial",
+      "description": "Customer reviews and trust ratings"
+    },
+    "/siteSettings/{settingsId}": {
+      "schema": "SiteSettings",
+      "description": "Global business contact and notice settings"
+    }
+  }
+}
